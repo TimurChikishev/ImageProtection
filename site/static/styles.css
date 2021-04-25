@@ -1,0 +1,76 @@
+body{
+    background-color: #302D42 !important;
+    font-family: 'Roboto', sans-serif !important;
+}
+.navbar {
+    background-color: #302D42;
+    border-bottom: 1px solid #CA48F6;
+}
+ul,li{
+    background-color: #302D42;
+}
+.nav-link {
+    color:azure;    
+}
+h1,h2 {
+    color:azure;
+    font-weight: 900 !important;
+}
+h3,h4{
+    color:azure;
+    font-weight: 500 !important;
+}
+p{
+    color:azure;
+}
+.heading-line {
+    height: 1px;
+    width: 200px;
+    background-color: #CA48F6;
+}
+.border-azure{
+    border:1px azure solid !important;
+}
+.active{
+    background-color:azure !important;
+    color:#050801 !important;
+}
+.background-black{
+    background-color:#302D42 !important;
+}
+.progress-bar-bacground{
+    background-color:#6A55F8 !important;
+}
+small{
+    color:azure !important;
+}
+table{
+    color:azure !important;
+}
+label{
+    color: azure !important;
+}
+.btn-bg{
+    background-color: #050801 !important;
+    color:azure !important;
+    border:1px solid #6A55F8 !important;
+}
+.btn-bg:hover{
+    background-color: azure !important;
+    color:#050801 !important;
+    border:1px solid #050801 !important;
+}
+.nav-link:hover{
+    color: #a1a1a1;
+}
+.fa .fa-bars{
+    color:azure !important;
+}
+.nav-a{
+    background-color: #302D42 !important;
+    color:white !important;
+}
+.nav-a:hover{
+    background-color: #302D42 !important;
+    color:gray !important;
+}
