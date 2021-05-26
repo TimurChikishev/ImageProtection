@@ -36,10 +36,8 @@
 
     {% if messages %}
     {% for message in messages %}
-    <!-- <div aria-live="polite" aria-atomic="true" class="my-4" style="position: absolute;"> style="position: absolute; top: 65px; right: 10px;" -->
-    <div class="toast" data-autohide="false" style="position: absolute; top: 30px; right: 30px; "
+    <div class="toast toast-message" data-autohide="false""
         id="toast-message">
-        <!-- style="position: absolute; top: 0; right: 0;" -->
         {% if message.tags %}
         <div class="toast-header bg-{{ message.tags }}">
             <strong class="mr-auto {{ message.tags }}">{{message.tags}}</strong>
