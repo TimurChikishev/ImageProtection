@@ -9,6 +9,8 @@ import imageio
 import matplotlib.pyplot as plt
 import numpy as np
 import random
+from PIL import Image
+from .attack.modules.analysis import Analyzer
 from pathlib import Path
 import os
 
@@ -28,9 +30,22 @@ def index(request):
             url = fs.url(name)
             context['image_url'] = url
             mod_name = protectImage(img)
-            context['mod_image_url'] = "/media/"+mod_name
+            mod_name_url = "/media/"+mod_name
+            context['hist1'] = "/media/"+"hist1_"+img.name
+            context['hist2'] = "/media/"+"hist2_"+img.name
+            context['mod_image_url'] = mod_name_url
+            
+            print("-----------")
+            print(url)
+            print(mod_name)
+            print("-----------")
+            an = Analyzer()
+            an.visual_attack(Image.open(MEDIA_ROOT+"/"+img.name), join=True)
+            context['src_lsb_image_url'] = "/media/"+img.name.split(".")[0]+"_LSB.bmp"
+            an.visual_attack(Image.open(MEDIA_ROOT+"/"+mod_name), join=True)
+            context['mod_lsb_image_url'] = "/media/"+mod_name.split(".")[0]+"_LSB.bmp"
         else:
-            messages.warning(request, 'The file must have a png or jpg resolution!')
+            messages.warning(request, 'Файл должен иметь разрешение png или jpg!')
             print("VALIDATE ERROR")
         
     return render(request, "attacks/index.html", context)
@@ -64,13 +79,23 @@ def protectImage(img):
         for i in values:
             patches[i].set_fc('r')
             array_lum_val.append(i)
-            
+
+    plt.grid('off') 
+    plt.axis('off')
+    plt.title('Resulting histogram (black) with selected regions (red)')
+    plt.savefig(MEDIA_ROOT+"/"+"hist1_"+file_name)
+    
     array_lum_val.sort()    
     print(array_lum_val) # luminance values selected
     
     for i in array_lum_val:
         img[img==i] = i+1
 
+    plt.hist(gray.flatten(), bins=256, facecolor='black', alpha=1)
+    plt.grid('off') 
+    plt.axis('off')
+    plt.savefig(MEDIA_ROOT+"/"+"hist2_"+file_name)
+    
     imageio.imwrite(MEDIA_ROOT+"/"+"mod_"+file_name, img)
     
     return "mod_"+file_name

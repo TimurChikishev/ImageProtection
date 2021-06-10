@@ -39,14 +39,63 @@
         <br>
         <div class="col">
             <a href="{{ image_url }}">
-                {{ image_url }}
+                Исходое изображение
+
+                <br>
+                <img class="" style="max-width: 99%;" src=" {{ image_url }}" alt="src" />
             </a>
         </div>
         {% endif %}
+
+        {% if hist1  %}
+        <div class="col">
+            <a href="{{ hist1 }}">
+                
+
+                <br>
+                <img class="" style="max-width: 99%;" src=" {{ hist1 }}" alt="mod" />
+            </a>
+        </div>
+        {% endif %}
+
+        {% if hist2  %}
+        <div class="col">
+            <a href="{{ hist2 }}">
+                
+
+                <br>
+                <img class="" style="max-width: 99%;" src=" {{ hist2 }}" alt="mod" />
+            </a>
+        </div>
+        {% endif %}
+
         {% if mod_image_url  %}
         <div class="col">
             <a href="{{ mod_image_url }}">
-                {{ mod_image_url }}
+                Измененное изображение
+
+                <br>
+                <img class="" style="max-width: 99%;" src=" {{ mod_image_url }}" alt="mod" />
+            </a>
+        </div>
+        {% endif %}
+        {% if src_lsb_image_url  %}
+        <div class="col">
+            <a href="{{ src_lsb_image_url }}">
+                Визуальная атака на исходое изображение
+
+                <br>
+                <img class="" style="max-width: 99%;" src=" {{ src_lsb_image_url }}" alt="mod" />
+            </a>
+        </div>
+        {% endif %}
+        {% if mod_lsb_image_url  %}
+        <div class="col">
+            <a href="{{ mod_lsb_image_url }}">
+                Визуальная атака на измененное изображение
+
+                <br>
+                <img class="" style="max-width: 99%;" src=" {{ mod_lsb_image_url }}" alt="mod" />
             </a>
         </div>
         {% endif %}
