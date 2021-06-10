@@ -95,7 +95,7 @@ def protectImage(img):
     plt.grid('off') 
     plt.axis('off')
     plt.savefig(MEDIA_ROOT+"/"+"hist2_"+file_name)
-    
+    plt.close()
     imageio.imwrite(MEDIA_ROOT+"/"+"mod_"+file_name, img)
     
     return "mod_"+file_name
