@@ -1,21 +1,11 @@
-{% extends 'base.html' %}
-{% load static %}
-{% csrf_token %}
-
-{% block head %}
-<link href="{% static 'css/index.css' %}" rel="stylesheet" />
-
-{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% csrf_token %} {% block head %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet" /> {% endblock %} {% block content %}
 <form class="my-5" method="post" action="" enctype="multipart/form-data">
     <div class="file-upload bg-light rounded">
-        <button class="btn button bg-button text-white form-control" type="button"
-            onclick="$('.file-upload-input').trigger( 'click' )">Добавить
+        <button class="btn button bg-button text-white form-control" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Добавить
             изображение</button>
         <div class="image-upload-wrap">
-            <input name="uploadFromPC" class="file-upload-input" type='file' onchange="readURL(this);"
-                accept="image/*" />
+            <input name="uploadFromPC" class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
             <div class="drag-text">
                 <h3>Перетащите файл или выберите «Добавить изображение».</h3>
             </div>
@@ -24,8 +14,7 @@
             <img class="file-upload-image" src="#" alt="your image" />
             <div class="image-title-wrap">
                 <div class="row">
-                    <button type="button" onclick="removeUpload()"
-                        class="btn button bg-danger form-control">Удалить&ensp;
+                    <button type="button" onclick="removeUpload()" class="btn button bg-danger form-control">Удалить&ensp;
                         <span class="image-title">Uploaded Image</span>
                     </button>
                 </div>
@@ -35,41 +24,33 @@
             </div>
         </div>
         <div class="" style="text-align: center">
-            {% if image_url  %}
+            {% if image_url %}
             <br>
             <a class="text-center mb-3" href="{{ image_url }}">
                 <img class="image-center" style="max-width: 99%;" src=" {{ image_url }}" alt="src" />
                 <p>Исходое изображение</p>
             </a>
-            {% endif %}
-
-            {% if hist1  %}
+            {% endif %} {% if hist1 %}
             <br>
             <a class="mb-3" href="{{ hist1 }}">
                 <img class="" style="max-width: 99%;" src=" {{ hist1 }}" alt="mod" />
             </a>
-            {% endif %}
-
-            {% if hist2  %}
+            {% endif %} {% if hist2 %}
             <br>
             <a class="mb-3" href="{{ hist2 }}">
                 <img class="" style="max-width: 99%;" src=" {{ hist2 }}" alt="mod" />
             </a>
-            {% endif %}
-
-            {% if mod_image_url  %}
+            {% endif %} {% if mod_image_url %}
             <a class="text-center mb-3" href="{{ mod_image_url }}">
                 <img class="" style="max-width: 99%;" src=" {{ mod_image_url }}" alt="mod" />
                 <p>Измененное изображение</p>
             </a>
-            {% endif %}
-            {% if src_lsb_image_url  %}
+            {% endif %} {% if src_lsb_image_url %}
             <a class="text-center mb-3" href="{{ src_lsb_image_url }}">
                 <img class="" style="max-width: 99%;" src=" {{ src_lsb_image_url }}" alt="mod" />
                 <p>Визуальная атака на исходое изображение</p>
             </a>
-            {% endif %}
-            {% if mod_lsb_image_url  %}
+            {% endif %} {% if mod_lsb_image_url %}
             <a class="text-center mb-3" href="{{ mod_lsb_image_url }}">
                 <img class="" style="max-width: 99%;" src=" {{ mod_lsb_image_url }}" alt="mod" />
                 <p>Визуальная атака на измененное изображение</p>
