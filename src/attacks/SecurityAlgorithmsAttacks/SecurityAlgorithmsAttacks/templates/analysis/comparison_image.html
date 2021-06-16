@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% csrf_token %}
+
+{% block head %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet" />
+
+{% endblock %}
+
+{% block content %}
+<form class="my-5" method="post" action="" enctype="multipart/form-data">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="file-upload-compairson bg-light rounded">
+                    <button class="btn button comparison-btn text-white form-control" type="button"
+                        onclick="$('.file-upload-input').trigger( 'click' )">Добавить
+                        изображение</button>
+                    <div class="image-upload-wrap">
+                        <input name="uploadFromPC" class="file-upload-input" type='file' onchange="readURL(this);"
+                            accept="image/*" />
+                        <div class="drag-text">
+                            <h3>1-й файл</h3>
+                        </div>
+                    </div>
+                    <div class="file-upload-content">
+                        <img class="file-upload-image" src="#" alt="your image" />
+                        <div class="image-title-wrap">
+                            <div class="row">
+                                <button type="button" onclick="removeUpload()"
+                                    class="btn button bg-danger form-control">Удалить&ensp;
+                                    <span class="image-title">Uploaded Image</span>
+                                </button>
+                            </div>
+                            <div class="row">
+                                <button type="submit"
+                                    class="btn button bg-dark text-white form-control">Продолжить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="file-upload-compairson bg-light rounded">
+                    <button class="btn button comparison-btn text-white form-control" type="button"
+                        onclick="$('.file-upload-input').trigger( 'click' )">Добавить
+                        изображение</button>
+                    <div class="image-upload-wrap">
+                        <input name="uploadFromPC" class="file-upload-input" type='file' onchange="readURL(this);"
+                            accept="image/*" />
+                        <div class="drag-text">
+                            <h3>2-й файл</h3>
+                        </div>
+                    </div>
+                    <div class="file-upload-content">
+                        <img class="file-upload-image" src="#" alt="your image" />
+                        <div class="image-title-wrap">
+                            <div class="row">
+                                <button type="button" onclick="removeUpload()"
+                                    class="btn button bg-danger form-control">Удалить&ensp;
+                                    <span class="image-title">Uploaded Image</span>
+                                </button>
+                            </div>
+                            <div class="row">
+                                <button type="submit"
+                                    class="btn button bg-dark text-white form-control">Продолжить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn comparison-btn form-control text-white my-2">СРАВНИТЬ</button>
+    </div>
+</form>
+
+<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+<script src="{% static '/js/upload_file.js' %}"></script>
+
+{% endblock %}

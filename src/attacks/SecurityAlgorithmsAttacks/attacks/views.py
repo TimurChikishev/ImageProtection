@@ -7,6 +7,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from .attack.modules.analysis import Analyzer
 from .attack.hist_test import *
+import skimage 
 from pathlib import Path
 import os
 
@@ -27,10 +28,6 @@ def index(request):
             url = fs.url(name)
             context['image_url'] = url
             
-            print("-----------")
-            print(url)
-            print("-----------")
-            
             mod_name = protectImage(img)
             mod_name_url = "/media/"+mod_name
             context['hist1'] = "/media/"+"hist_source_"+img.name
@@ -46,4 +43,8 @@ def index(request):
             print("VALIDATE ERROR")
         
     return render(request, "attacks/index.html", context)
+
+@csrf_exempt
+def comparison(request):
+    return render(request, "analysis/comparison_image.html")
 

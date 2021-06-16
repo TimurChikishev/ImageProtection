@@ -8,3 +8,15 @@
     top: 30px; 
     right: 30px;
 }
+
+.nav-bg {
+    background-color: #4c4093 !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}

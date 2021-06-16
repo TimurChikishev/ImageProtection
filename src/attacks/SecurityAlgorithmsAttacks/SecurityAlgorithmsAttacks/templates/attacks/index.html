@@ -10,7 +10,7 @@
 {% block content %}
 <form class="my-5" method="post" action="" enctype="multipart/form-data">
     <div class="file-upload bg-light rounded">
-        <button class="btn button bg-dark text-white form-control" type="button"
+        <button class="btn button bg-button text-white form-control" type="button"
             onclick="$('.file-upload-input').trigger( 'click' )">Добавить
             изображение</button>
         <div class="image-upload-wrap">
@@ -34,67 +34,48 @@
                 </div>
             </div>
         </div>
-
-        {% if image_url  %}
-        <br>
-        <div class="col">
-            <a href="{{ image_url }}">
-                Исходое изображение
-
-                <br>
-                <img class="" style="max-width: 99%;" src=" {{ image_url }}" alt="src" />
+        <div class="" style="text-align: center">
+            {% if image_url  %}
+            <br>
+            <a class="text-center mb-3" href="{{ image_url }}">
+                <img class="image-center" style="max-width: 99%;" src=" {{ image_url }}" alt="src" />
+                <p>Исходое изображение</p>
             </a>
-        </div>
-        {% endif %}
+            {% endif %}
 
-        {% if hist1  %}
-        <div class="col">
-            <a href="{{ hist1 }}">
-                <br>
+            {% if hist1  %}
+            <br>
+            <a class="mb-3" href="{{ hist1 }}">
                 <img class="" style="max-width: 99%;" src=" {{ hist1 }}" alt="mod" />
             </a>
-        </div>
-        {% endif %}
+            {% endif %}
 
-        {% if hist2  %}
-        <div class="col">
-            <a href="{{ hist2 }}">
-                <br>
+            {% if hist2  %}
+            <br>
+            <a class="mb-3" href="{{ hist2 }}">
                 <img class="" style="max-width: 99%;" src=" {{ hist2 }}" alt="mod" />
             </a>
-        </div>
-        {% endif %}
+            {% endif %}
 
-        {% if mod_image_url  %}
-        <div class="col">
-            <a href="{{ mod_image_url }}">
-                Измененное изображение
-
-                <br>
+            {% if mod_image_url  %}
+            <a class="text-center mb-3" href="{{ mod_image_url }}">
                 <img class="" style="max-width: 99%;" src=" {{ mod_image_url }}" alt="mod" />
+                <p>Измененное изображение</p>
             </a>
-        </div>
-        {% endif %}
-        {% if src_lsb_image_url  %}
-        <div class="col">
-            <a href="{{ src_lsb_image_url }}">
-                Визуальная атака на исходое изображение
-
-                <br>
+            {% endif %}
+            {% if src_lsb_image_url  %}
+            <a class="text-center mb-3" href="{{ src_lsb_image_url }}">
                 <img class="" style="max-width: 99%;" src=" {{ src_lsb_image_url }}" alt="mod" />
+                <p>Визуальная атака на исходое изображение</p>
             </a>
-        </div>
-        {% endif %}
-        {% if mod_lsb_image_url  %}
-        <div class="col">
-            <a href="{{ mod_lsb_image_url }}">
-                Визуальная атака на измененное изображение
-
-                <br>
+            {% endif %}
+            {% if mod_lsb_image_url  %}
+            <a class="text-center mb-3" href="{{ mod_lsb_image_url }}">
                 <img class="" style="max-width: 99%;" src=" {{ mod_lsb_image_url }}" alt="mod" />
+                <p>Визуальная атака на измененное изображение</p>
             </a>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </form>
 
