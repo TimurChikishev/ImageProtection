@@ -10,8 +10,7 @@ function readURL(input) {
     } else {
         removeUpload();
     }
-    // console.log(input.files[0])
-    // console.log(file_list);
+
     if (input.files.length < file_list.length)
         input.files = file_list
 
@@ -24,8 +23,6 @@ function readURL(input) {
 
             $('.file-upload-image' + file_list.length).attr('src', e.target.result);
             $('.file-upload-content').show();
-
-            // $('.image-title').html(input.files.name);
         };
 
 

@@ -10,7 +10,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 def isValidateImage(img) -> bool:
-    print("img: ", img)
     if img.endswith('.png') or img.endswith('.jpg'):
         return True
     else:
@@ -18,15 +17,11 @@ def isValidateImage(img) -> bool:
     
 def protectImage(img):
     file_name = img.name
-    print(MEDIA_ROOT+"/"+file_name)
     img = imageio.imread(MEDIA_ROOT+"/"+file_name)
-    print(img)
-   
+
     gray = rgb2gray(img)
-    print(gray)
     gray = gray.astype(np.int64)
-    print(gray)
-    
+
     plt.hist(gray.flatten(), bins=256, facecolor='black', alpha=1)
     plt.grid('off') 
     plt.axis('off')
@@ -36,9 +31,7 @@ def protectImage(img):
     
     H = plt.hist(gray.flatten(), bins=256, facecolor='black', alpha=1)
     int_values = getmask(H[0], 4) # just modify the percent of the pixel values taken
-    print("returned values for this image") 
-    print(int_values)
-    
+
     array_lum_val = []
     n, bins, patches = plt.hist(gray.flatten(), bins=256, align='left', color='black')
     for values in int_values:
@@ -53,15 +46,9 @@ def protectImage(img):
     plt.close()
     
     array_lum_val.sort()    
-    print(array_lum_val) # luminance values selected
     
     for i in array_lum_val:
         img[img==i] = i+1
-
-    # plt.hist(gray.flatten(), bins=256, facecolor='black', alpha=1)
-    # plt.grid('off') 
-    # plt.axis('off')
-    # plt.savefig(MEDIA_ROOT+"/"+"hist2_"+file_name)
     
     imageio.imwrite(MEDIA_ROOT+"/"+"mod_"+file_name, img)
     

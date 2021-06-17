@@ -13,7 +13,8 @@ class Analyzer:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'static\\media')
     
     def __init__(self, log_lvl=logging.INFO):
-        logging.basicConfig(format='%(levelname)-8s [%(asctime)s] %(message)s', level=log_lvl)
+        pass
+        # logging.basicConfig(format='%(levelname)-8s [%(asctime)s] %(message)s', level=log_lvl)
 
     def visual_attack(self, img, join=False, bitnum=1):
         """Implementing a visual attack
@@ -30,7 +31,7 @@ class Analyzer:
 
         """
         bitnum = int(bitnum)
-        logging.info('Visualising lsb for '+ img.filename +' ...🌀')
+        # logging.info('Visualising lsb for '+ img.filename +' ...🌀')
         height, width = img.size
         if join == False:
             channels = img.split()
@@ -51,7 +52,7 @@ class Analyzer:
                                 img_ch.putpixel((i, j), 0) # white
                 name = suffixes[k] + "-" + img.filename.split(".")[0] + ".bmp"
                 img_ch.save(name)
-                logging.info("Openning " + suffixes[k] + " component...🌀")
+                # logging.info("Openning " + suffixes[k] + " component...🌀")
                 # img_ch.show()
         else:
             img_ch = Image.new("RGB", (height, width), color=(0, 0, 0))
@@ -69,13 +70,13 @@ class Analyzer:
 
                     img_ch.putpixel((i, j), tuple(new_pixel))
                     
-            print(self.MEDIA_ROOT)
-            print("-------")
-            print(img.filename.split(".")[0])
-            print("+++")
-            print(img.filename.split(".")[0] + "_LSB.bmp")
-            img_ch.save(img.filename.split(".")[0] + "_LSB.bmp")
-            logging.info("Openning LSB image...🌀")
+            # print(self.MEDIA_ROOT)
+            # print("-------")
+            # print(img.filename.split(".")[0])
+            # print("+++")
+            # print(img.filename.split(".")[0] + "_LSB.bmp")
+            img_ch.save(img.filename.split(".")[0] + ".bmp")
+            # logging.info("Openning LSB image...🌀")
             # img_ch.show()
 
     def chi_squared_attack(self, img, eps=1e-5):
@@ -93,7 +94,7 @@ class Analyzer:
         :param eps: Error value for probability  (default is 1e-5)
         
         """
-        logging.info('Calculating chi_squared for '+ img.filename +' ...🌀')
+        #  logging.info('Calculating chi_squared for '+ img.filename +' ...🌀')
         channels = img.split()
         width, height = img.size
 
@@ -116,19 +117,22 @@ class Analyzer:
                     img_to_blend.putpixel((j, i), (255, 0, 0)) # red
 
         result = Image.blend(img, img_to_blend, 0.5)
-        result.save("chi-" + img.filename)
+        result.save(img.filename.split(".")[0] + "_chi.bmp")
+        
         # result.show()
 
     def spa_attack(self, img):
-        logging.info("Calculating spa beta for " + img.filename +' ...')
+        # logging.info("Calculating spa beta for " + img.filename +' ...')
         estimate = spa_test(img)
-        logging.info("SPA estimate for "+ img.filename + " is " + str(estimate))
+        return estimate
+        # logging.info("SPA estimate for "+ img.filename + " is " + str(estimate))
 
     def rs_attack(self, img):
-        logging.info("Calculating rs estimate for " + img.filename +' ...🌀')
-        logging.info("It will take a couple of minutes...")
+        # logging.info("Calculating rs estimate for " + img.filename +' ...🌀')
+        # logging.info("It will take a couple of minutes...")
         estimate = rs_test(img)
-        logging.info("RS estimate for "+ img.filename + " is " + str(estimate))
+        return estimate
+        # logging.info("RS estimate for "+ img.filename + " is " + str(estimate))
 
 if __name__ == "__main__":
     an = Analyzer()

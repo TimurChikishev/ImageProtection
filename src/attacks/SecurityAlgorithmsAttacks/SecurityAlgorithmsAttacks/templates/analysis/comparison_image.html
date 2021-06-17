@@ -2,13 +2,12 @@
 <link href="{% static 'css/index.css' %}" rel="stylesheet" /> {% endblock %} {% block content %}
 <form class="mt-5" method="post" action="" enctype="multipart/form-data">
     <div class="container">
-        <div class="file-upload-compairson bg-light rounded">
-            <button class="btn button comparison-btn text-white form-control" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Добавить
-                изображение</button>
+        <div class="my-5 file-upload-compairson bg-light rounded">
+            <button class="btn button comparison-btn text-white form-control" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Добавить изображение </button>
             <div class="image-upload-wrap">
                 <input name="uploadFromPC[]" class="file-upload-input" type='file' onchange="readURL(this);" accept=".jpg, .png" />
                 <div class="drag-text">
-                    <h3>Перетащи файл</h3>
+                    <h3>Перетащите файл или выберите «Добавить изображение».</h3>
                 </div>
             </div>
             <div class="file-upload-content">
@@ -27,9 +26,106 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn comparison-btn form-control text-white my-2">СРАВНИТЬ</button> {% if ssim %}
-            <p class="mt-4">Средний индекс структурного сходства по изображению: <strong>{{ ssim }}</strong></p>
-            {% endif %}
+            <button type="submit" class="btn comparison-btn form-control text-white my-2"> СРАВНИТЬ </button> {% if ssim %}
+            <div class="text-center">
+                <p class="mt-3">Средний индекс структурного сходства по изображению: <strong>{{ ssim }}</strong></p>
+            </div>
+            <div class="row my-4">
+                {% if first_img %}
+                <div class="cont">
+                    <img name="image1" class="file-upload-image1 image" src="{{ first_img }}" id="image1" />
+                    <div class="middle">
+                        <div class="text">First Image</div>
+                    </div>
+                </div>
+                {% endif %} {% if second_img %}
+                <div class="cont">
+                    <img name="image2" class="file-upload-image2 image" src="{{ second_img }}" id="image2" />
+                    <div class="middle">
+                        <div class="text">Second Image</div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="row my-4">
+                {% if img1_hist_rgb %}
+                <div class="cont">
+                    <img name="img1_hist_rgb" class="file-upload-image1 image" src="{{ img1_hist_rgb }}" id="img1_hist_rgb" />
+                    <div class="middle">
+                        <div class="text">IMAGE1 RGB HISTAGRAM</div>
+                    </div>
+                </div>
+                {% endif %} {% if img2_hist_rgb %}
+                <div class="cont">
+                    <img name="img2_hist_rgb" class="file-upload-image1 image" src="{{ img2_hist_rgb }}" id="img2_hist_rgb" />
+                    <div class="middle">
+                        <div class="text">IMAGE2 RGB HISTAGRAM</div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="row my-4">
+                {% if img1_hist_red %}
+                <div class="cont">
+                    <img name="img1_hist_red" class="file-upload-image1 image" src="{{ img1_hist_red }}" id="img1_hist_red" />
+                    <div class="middle">
+                        <div class="text">Histogram of the red channel of the first image</div>
+                    </div>
+                </div>
+                {% endif %} {% if img2_hist_red %}
+                <div class="cont">
+                    <img name="img2_hist_red" class="file-upload-image1 image" src="{{ img2_hist_red }}" id="img2_hist_red" />
+                    <div class="middle">
+                        <div class="text">Histogram of the red channel of the second image</div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="row my-4">
+                {% if img1_hist_green %}
+                <div class="cont">
+                    <img name="img1_hist_green" class="file-upload-image2 image" src="{{ img1_hist_green }}" id="img1_hist_green" />
+                    <div class="middle">
+                        <div class="text">Histogram of the green channel of the first image</div>
+                    </div>
+                </div>
+                {% endif %} {% if img2_hist_green %}
+                <div class="cont">
+                    <img name="img2_hist_green" class="file-upload-image2 image" src="{{ img2_hist_green }}" id="img2_hist_green" />
+                    <div class="middle">
+                        <div class="text">Histogram of the green channel of the second image</div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="row my-4">
+                {% if img1_hist_blue %}
+                <div class="cont">
+                    <img name="img1_hist_blue" class="file-upload-image1 image" src="{{ img1_hist_blue }}" id="img1_hist_blue" />
+                    <div class="middle">
+                        <div class="text">Histogram of the blue channel of the first image</div>
+                    </div>
+                </div>
+                {% endif %} {% if img2_hist_blue %}
+                <div class="cont">
+                    <img name="img2_hist_blue" class="file-upload-image1 image" src="{{ img2_hist_blue }}" id="img2_hist_blue" />
+                    <div class="middle">
+                        <div class="text">Histogram of the blue channel of the second image</div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if visual_comparsion %}
+            <div class="cont">
+                <img class="file-upload-image1 image" src="{{ visual_comparsion }}" id="visual_comparsion" />
+                <div class="middle">
+                    <div class="text">Visual comparsion</div>
+                </div>
+            </div>
+            {% endif %} {% endif %}
         </div>
     </div>
 </form>

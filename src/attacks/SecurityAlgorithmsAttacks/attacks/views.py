@@ -7,6 +7,8 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from .attack.modules.analysis import Analyzer
 from .attack.hist_test import *
+from .attack.attack import *
+from .attack.hist import *
 from skimage.metrics import structural_similarity as ssim
 from pathlib import Path
 import os
@@ -16,19 +18,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 an = Analyzer()
 
+attacks = [(Attack.VISUAL, "VISUAL"), 
+           (Attack.CHI_SQUARE, "CHI_SQUARE"), 
+           (Attack.RS, "RS"), 
+           (Attack.SPA, "SPA")]
+
 @csrf_exempt
 def index(request):
     context = {}
+    context["attacks"] = attacks
     try:
         if request.method == "POST":
+            data = request.POST
+            attack_mod = request.POST['attacs']
+            print(attack_mod)
             img = request.FILES['uploadFromPC']
-            print(img)
-            
             if isValidateImage(img.name):
                 fs = FileSystemStorage()
                 name = fs.save(img.name, img)
                 url = fs.url(name)
-                context['image_url'] = url
+                context['src_image_url'] = url
                 
                 mod_name = protectImage(img)
                 mod_name_url = "/media/"+mod_name
@@ -36,10 +45,33 @@ def index(request):
                 context['hist2'] = "/media/"+"hist1_"+img.name
                 context['mod_image_url'] = mod_name_url
                 
-                an.visual_attack(Image.open(MEDIA_ROOT+"/"+img.name), join=True)
-                context['src_lsb_image_url'] = "/media/"+img.name.split(".")[0]+"_LSB.bmp"
-                an.visual_attack(Image.open(MEDIA_ROOT+"/"+mod_name), join=True)
-                context['mod_lsb_image_url'] = "/media/"+mod_name.split(".")[0]+"_LSB.bmp"
+                if(Attack.VISUAL.value == attack_mod):
+                    an.visual_attack(Image.open(MEDIA_ROOT+"/"+img.name), join=True)
+                    an.visual_attack(Image.open(MEDIA_ROOT+"/"+mod_name), join=True)
+                    context['src_image_attack_url'] = "/media/"+img.name.split(".")[0]+".bmp"
+                    context['mod_image_attack_url'] = "/media/"+mod_name.split(".")[0]+".bmp"
+                    
+                elif (Attack.CHI_SQUARE.value == attack_mod):
+                    an.chi_squared_attack(Image.open(MEDIA_ROOT+"/"+img.name))
+                    an.chi_squared_attack(Image.open(MEDIA_ROOT+"/"+mod_name))
+                    context['src_image_attack_url'] = "/media/"+img.name.split(".")[0]+"_chi.bmp"
+                    context['mod_image_attack_url'] = "/media/"+mod_name.split(".")[0]+"_chi.bmp"
+                    
+                elif (Attack.RS.value == attack_mod):
+                    src_average = an.rs_attack(Image.open(MEDIA_ROOT+"/"+img.name))
+                    mod_average = an.rs_attack(Image.open(MEDIA_ROOT+"/"+mod_name))
+                    context['src_average_attack_url'] = (src_average, "Оценка RS на исходном изображении: ")
+                    context['mod_average_attack_url'] = (mod_average, "Оценка RS на измененном изображении: ")
+                    
+                elif (Attack.SPA.value == attack_mod):
+                    src_average = an.spa_attack(Image.open(MEDIA_ROOT+"/"+img.name))
+                    mod_average = an.spa_attack(Image.open(MEDIA_ROOT+"/"+mod_name))
+                    context['src_average_attack_url'] = (src_average, "Оценка SPA на исходном изображении: ")
+                    context['mod_average_attack_url'] = (mod_average, "Оценка SPA на измененном изображении: ")
+                    
+                else:
+                    messages.warning(request, 'Выберите метод атаки!')
+                    
             else:
                 messages.warning(request, 'Файл должен иметь разрешение png или jpg!')
                 
@@ -59,6 +91,11 @@ def comparison(request):
             
             name1 = fs.save(img_list[0].name, img_list[0])
             name2 = fs.save(img_list[1].name, img_list[1])
+            
+            first_img_url = fs.url(name1)
+            second_img_url = fs.url(name2)
+            context['first_img'] = first_img_url
+            context['second_img'] = second_img_url
 
             img1 = Image.open(MEDIA_ROOT+"/"+img_list[0].name)
             img2 = Image.open(MEDIA_ROOT+"/"+img_list[1].name)
@@ -67,6 +104,23 @@ def comparison(request):
   
             ssimg = ssim(img_a, img_b, multichannel=True) 
             context['ssim'] = ssimg
+            
+            # Визуальное отличие
+            runVisualComparsion(img1, img2)
+            context['visual_comparsion'] = "/media/"+"visual_comparsion"+os.path.basename(img1.filename)
+            
+            # RGB hist
+            runHistRGB(img1.filename, "1")
+            context['img1_hist_rgb'] = "/media/1hist_rgb.png"
+            context['img1_hist_red'] = "/media/1hist_Red.png"
+            context['img1_hist_green'] = "/media/1hist_Green.png"
+            context['img1_hist_blue'] = "/media/1hist_Blue.png"
+            
+            runHistRGB(img2.filename, "2")
+            context['img2_hist_rgb'] = "/media/2hist_rgb.png"
+            context['img2_hist_red'] = "/media/2hist_Red.png"
+            context['img2_hist_green'] = "/media/2hist_Green.png"
+            context['img2_hist_blue'] = "/media/2hist_Blue.png"
             
         except Exception as ex:
             messages.warning(request, str(ex))
