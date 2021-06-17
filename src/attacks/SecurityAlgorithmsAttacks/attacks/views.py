@@ -31,8 +31,8 @@ def index(request):
         if request.method == "POST":
             data = request.POST
             attack_mod = request.POST['attacs']
-            print(attack_mod)
             img = request.FILES['uploadFromPC']
+            
             if isValidateImage(img.name):
                 fs = FileSystemStorage()
                 name = fs.save(img.name, img)
@@ -69,11 +69,11 @@ def index(request):
                     context['src_average_attack_url'] = (src_average, "Оценка SPA на исходном изображении: ")
                     context['mod_average_attack_url'] = (mod_average, "Оценка SPA на измененном изображении: ")
                     
+                else:
+                    messages.warning(request, 'Выберите метод атаки!')
+                    
             else:
-                messages.warning(request, 'Выберите метод атаки!')
-                
-        else:
-            messages.warning(request, 'Файл должен иметь разрешение png или jpg!')
+                messages.warning(request, 'Файл должен иметь разрешение png или jpg!')
             
     except Exception as ex:
         messages.warning(request, str(ex))
