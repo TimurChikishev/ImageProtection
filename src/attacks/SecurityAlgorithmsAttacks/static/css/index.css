@@ -145,6 +145,11 @@
       text-align: center;
   }
   
+  .cont-center {
+      margin: auto;
+      width: 50%;
+  }
+  
   .cont {
       position: relative;
       width: 50%;

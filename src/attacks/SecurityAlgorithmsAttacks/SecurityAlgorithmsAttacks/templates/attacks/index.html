@@ -23,7 +23,6 @@
             <div class="image-title-wrap">
                 <div class="row">
                     <button type="button" onclick="removeUpload()" class="btn button bg-danger form-control">Удалить&ensp;
-                        <span class="image-title">Uploaded Image</span>
                     </button>
                 </div>
                 <div class="row">
@@ -32,7 +31,11 @@
             </div>
         </div>
         <div class="" style="text-align: center">
-            {% if src_image_url %}
+            {% if src_image_url %} {% if src_average_attack_url %}
+            <p class="mt-4">{{ src_average_attack_url.1 }} <strong>{{ src_average_attack_url.0 }}</strong></p>
+            {% endif %} {% if mod_average_attack_url %}
+            <p>{{ mod_average_attack_url.1 }} <strong>{{ mod_average_attack_url.0 }}</strong></p>
+            {% endif %}
             <br>
             <a class="text-center mb-3" href="{{ src_image_url }}">
                 <img class="image-center" style="max-width: 99%;" src=" {{ src_image_url }}" alt="src" />
@@ -56,21 +59,13 @@
             {% endif %} {% if src_image_attack_url %}
             <a class="text-center mb-3" href="{{ src_image_attack_url }}">
                 <img class="" style="max-width: 99%;" src=" {{ src_image_attack_url }}" alt="mod" />
-                <p>Визуальная атака на исходое изображение</p>
+                <p>Атака на исходое изображение</p>
             </a>
             {% endif %} {% if mod_image_attack_url %}
             <a class="text-center mb-3" href="{{ mod_image_attack_url }}">
                 <img class="" style="max-width: 99%;" src=" {{ mod_image_attack_url }}" alt="mod" />
-                <p>Визуальная атака на измененное изображение</p>
+                <p>Атака на измененное изображение</p>
             </a>
-            {% endif %} {% if src_average_attack_url %}
-
-            <p>{{ src_average_attack_url.1 }} <strong>{{ src_average_attack_url.0 }}</strong></p>
-
-            {% endif %} {% if mod_average_attack_url %}
-
-            <p>{{ mod_average_attack_url.1 }} <strong>{{ mod_average_attack_url.0 }}</strong></p>
-
             {% endif %}
         </div>
     </div>

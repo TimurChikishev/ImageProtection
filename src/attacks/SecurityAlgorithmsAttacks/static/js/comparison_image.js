@@ -3,7 +3,6 @@ var dt = new DataTransfer();
 
 function readURL(input) {
 
-    console.log(input.files)
     if (file_list.length < 2) {
         dt.items.add(input.files[0]);
         file_list = dt.files;
@@ -11,10 +10,21 @@ function readURL(input) {
         removeUpload();
     }
 
-    if (input.files.length < file_list.length)
+    if (input.files.length < file_list.length) {
         input.files = file_list
+        var reader = new FileReader();
 
-    if (input.files && file_list[0]) {
+        reader.onload = function(e) {
+            if (file_list.length == 2)
+                $('.image-upload-wrap').hide();
+
+            $('.file-upload-image' + file_list.length).attr('src', e.target.result);
+            $('.file-upload-content').show();
+        };
+        reader.readAsDataURL(file_list[file_list.length - 2]);
+        reader.readAsDataURL(file_list[file_list.length - 1]);
+    } else {
+        file_list = input.files
         var reader = new FileReader();
 
         reader.onload = function(e) {
@@ -25,13 +35,25 @@ function readURL(input) {
             $('.file-upload-content').show();
         };
 
-
         reader.readAsDataURL(file_list[file_list.length - 1]);
-
-
-    } else {
-        removeUpload();
     }
+
+    // if (input.files && file_list[0]) {
+    //     var reader = new FileReader();
+
+    //     reader.onload = function(e) {
+    //         if (file_list.length == 2)
+    //             $('.image-upload-wrap').hide();
+
+    //         $('.file-upload-image' + file_list.length).attr('src', e.target.result);
+    //         $('.file-upload-content').show();
+    //     };
+
+    //     reader.readAsDataURL(file_list[file_list.length - 1]);
+
+    // } else {
+    //     removeUpload();
+    // }
 }
 
 function removeUpload() {

@@ -5,7 +5,7 @@
         <div class="my-5 file-upload-compairson bg-light rounded">
             <button class="btn button comparison-btn text-white form-control" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Добавить изображение </button>
             <div class="image-upload-wrap">
-                <input name="uploadFromPC[]" class="file-upload-input" type='file' onchange="readURL(this);" accept=".jpg, .png" />
+                <input name="uploadFromPC[]" class="file-upload-input" type='file' onchange="readURL(this);" accept=".jpg, .png" multiple/>
                 <div class="drag-text">
                     <h3>Перетащите файл или выберите «Добавить изображение».</h3>
                 </div>
@@ -53,14 +53,14 @@
                 <div class="cont">
                     <img name="img1_hist_rgb" class="file-image image" src="{{ img1_hist_rgb }}" id="img1_hist_rgb" />
                     <div class="middle">
-                        <div class="text">IMAGE1 RGB HISTAGRAM</div>
+                        <div class="text">The RGB histogram of the first image</div>
                     </div>
                 </div>
                 {% endif %} {% if img2_hist_rgb %}
                 <div class="cont">
                     <img name="img2_hist_rgb" class="file-image image" src="{{ img2_hist_rgb }}" id="img2_hist_rgb" />
                     <div class="middle">
-                        <div class="text">IMAGE2 RGB HISTAGRAM</div>
+                        <div class="text">The RGB histogram of the second image</div>
                     </div>
                 </div>
                 {% endif %}
@@ -119,11 +119,9 @@
             </div>
 
             {% if visual_comparsion %}
-            <div class="cont">
+            <div class="cont-center text-center bg-light my-4">
                 <img class="file-image image" src="{{ visual_comparsion }}" id="visual_comparsion" />
-                <div class="middle">
-                    <div class="text">Visual comparsion</div>
-                </div>
+                <div class="text">Визуальное отличие</div>
             </div>
             {% endif %} {% endif %}
         </div>

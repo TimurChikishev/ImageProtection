@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from PIL import Image, ImageChops
 import cv2 as cv
@@ -45,7 +47,6 @@ def runHistRGB(file_name, num):
     
     for i, color in enumerate(color):
         hist = cv.calcHist([img], [i], None, [256], [0, 256])
-        plt.title("RGB")
         plt.xlabel("Bins")
         plt.ylabel("Count")
         plt.plot(hist, color = color)
@@ -75,7 +76,6 @@ def runHistRGB(file_name, num):
             color = "Green"
         elif (i == 2):
             color = "Blue"
-        plt.title(color + " channel")
         plt.xlabel("Bins")
         plt.ylabel("Count")
         sns.histplot(ListColor, bins=256, color = color, element="bars")
