@@ -96,38 +96,41 @@ def comparison(request):
             name1 = fs.save(img_list[0].name, img_list[0])
             name2 = fs.save(img_list[1].name, img_list[1])
             
-            first_img_url = fs.url(name1)
-            second_img_url = fs.url(name2)
-            context['first_img'] = first_img_url
-            context['second_img'] = second_img_url
-
             img1 = Image.open(MEDIA_ROOT+"/"+img_list[0].name)
             img2 = Image.open(MEDIA_ROOT+"/"+img_list[1].name)
-            img_a = np.asarray(img1)
-            img_b = np.asarray(img2)
-
-            ssimg = ssim(img_a, img_b, multichannel=True) 
-            context['ssim'] = ssimg
             
-            # Визуальное отличие
-            runVisualComparsion(img1, img2)
-            context['visual_comparsion'] = "/media/"+"visual_comparsion"+os.path.basename(img1.filename)
+            context['first_img'] = fs.url(name1)
+            context['second_img'] = fs.url(name2)
             
-            # RGB hist
-            runHistRGB(img1.filename, "1")
-            context['img1_hist_rgb'] = "/media/1hist_rgb.png"
-            context['img1_hist_red'] = "/media/1hist_Red.png"
-            context['img1_hist_green'] = "/media/1hist_Green.png"
-            context['img1_hist_blue'] = "/media/1hist_Blue.png"
-            
-            runHistRGB(img2.filename, "2")
-            context['img2_hist_rgb'] = "/media/2hist_rgb.png"
-            context['img2_hist_red'] = "/media/2hist_Red.png"
-            context['img2_hist_green'] = "/media/2hist_Green.png"
-            context['img2_hist_blue'] = "/media/2hist_Blue.png"
+            structural_similarity(img1, img2, context)
+            genAnalisisImage(img1, img2, context)
             
         except Exception as ex:
             messages.warning(request, str(ex))
             
     return render(request, "analysis/comparison_image.html", context)
 
+def structural_similarity(img1, img2, context):
+    img_a = np.asarray(img1)
+    img_b = np.asarray(img2)
+    ssimg = ssim(img_a, img_b, multichannel=True) 
+    context['ssim'] = ssimg
+
+def genAnalisisImage(img1, img2, context):
+    # Визуальное отличие
+    runVisualComparsion(img1, img2)
+    context['visual_comparsion'] = "/media/"+"visual_comparsion"+os.path.basename(img1.filename)
+    
+    # RGB hist
+    runHistRGB(img1.filename, "1")
+    context['img1_hist_rgb'] = "/media/1hist_rgb.png"
+    context['img1_hist_red'] = "/media/1hist_Red.png"
+    context['img1_hist_green'] = "/media/1hist_Green.png"
+    context['img1_hist_blue'] = "/media/1hist_Blue.png"
+    
+    runHistRGB(img2.filename, "2")
+    context['img2_hist_rgb'] = "/media/2hist_rgb.png"
+    context['img2_hist_red'] = "/media/2hist_Red.png"
+    context['img2_hist_green'] = "/media/2hist_Green.png"
+    context['img2_hist_blue'] = "/media/2hist_Blue.png"
+    

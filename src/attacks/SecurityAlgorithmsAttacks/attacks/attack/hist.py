@@ -9,14 +9,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static\\media')
-    
+ 
+# Сверяет два изображения    
 def runVisualComparsion(image_1, image_2):
-    # image_1=Image.open('147641739_170098707968740_3981973408906071353_n.jpg')
-    # image_2=Image.open('mod_147641739_170098707968721071353_n.jpg')
     result=ImageChops.difference(image_1, image_2)
     new_image = change_brightness(result, 'lighten', 1000)
-    # print("---------", (os.path.basename(image_1.filename)))
-    # print("---------", (MEDIA_ROOT))
     new_image.save(MEDIA_ROOT+"/visual_comparsion"+os.path.basename(image_1.filename))
 
 def change_brightness(image, action, extent):
@@ -41,9 +38,8 @@ def change_brightness(image, action, extent):
     new_image.putdata(new_image_list)
     return new_image
 
-
+# Строит гистограммы для каждого канала изображения
 def runHistRGB(file_name, num):
-    # file_name = 'mod_147641739_170098707968721071353_n.jpg'
     img = cv.imread(file_name)
     color = ("b","g","r")
     
@@ -79,7 +75,6 @@ def runHistRGB(file_name, num):
             color = "Green"
         elif (i == 2):
             color = "Blue"
-        plt.figure()
         plt.title(color + " channel")
         plt.xlabel("Bins")
         plt.ylabel("Count")
