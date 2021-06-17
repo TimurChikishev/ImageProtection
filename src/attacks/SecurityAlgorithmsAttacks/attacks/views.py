@@ -69,12 +69,12 @@ def index(request):
                     context['src_average_attack_url'] = (src_average, "Оценка SPA на исходном изображении: ")
                     context['mod_average_attack_url'] = (mod_average, "Оценка SPA на измененном изображении: ")
                     
-                else:
-                    messages.warning(request, 'Выберите метод атаки!')
-                    
             else:
-                messages.warning(request, 'Файл должен иметь разрешение png или jpg!')
+                messages.warning(request, 'Выберите метод атаки!')
                 
+        else:
+            messages.warning(request, 'Файл должен иметь разрешение png или jpg!')
+            
     except Exception as ex:
         messages.warning(request, str(ex))
         
@@ -86,8 +86,12 @@ def comparison(request):
     if request.method == "POST":
         try:
             fs = FileSystemStorage()      
-            img = request.FILES
+            img = request.FILES 
             img_list = img.getlist('uploadFromPC[]')
+            
+            if len(img_list) != 2: 
+                messages.warning(request, 'Загрузите два файла для сравнения!')
+                return render(request, "analysis/comparison_image.html", context)
             
             name1 = fs.save(img_list[0].name, img_list[0])
             name2 = fs.save(img_list[1].name, img_list[1])
@@ -101,7 +105,7 @@ def comparison(request):
             img2 = Image.open(MEDIA_ROOT+"/"+img_list[1].name)
             img_a = np.asarray(img1)
             img_b = np.asarray(img2)
-  
+
             ssimg = ssim(img_a, img_b, multichannel=True) 
             context['ssim'] = ssimg
             

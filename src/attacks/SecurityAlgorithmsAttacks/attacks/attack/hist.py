@@ -56,7 +56,7 @@ def runHistRGB(file_name, num):
         plt.xlim([0, 256])
     
     plt.savefig(MEDIA_ROOT+"/"+num+"hist_rgb.png")
-
+    plt.close()
     image = Image.open(file_name)
     width = image.size[0]
     height = image.size[1]

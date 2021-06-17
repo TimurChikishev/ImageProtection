@@ -127,6 +127,13 @@
       padding: 20px;
   }
   
+  .file-image {
+      width: 200px;
+      height: auto;
+      margin: auto;
+      padding: 20px;
+  }
+  
   .middle {
       transition: .5s ease;
       opacity: 0;
