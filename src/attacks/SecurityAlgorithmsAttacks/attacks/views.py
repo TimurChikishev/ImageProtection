@@ -40,36 +40,13 @@ def index(request):
                 context['src_image_url'] = url
                 
                 mod_name = protectImage(img)
-                mod_name_url = "/media/"+mod_name
+            
                 context['hist1'] = "/media/"+"hist_source_"+img.name
                 context['hist2'] = "/media/"+"hist1_"+img.name
-                context['mod_image_url'] = mod_name_url
+                context['mod_image_url'] = "/media/"+mod_name
                 
-                if(Attack.VISUAL.value == attack_mod):
-                    an.visual_attack(Image.open(MEDIA_ROOT+"/"+img.name), join=True)
-                    an.visual_attack(Image.open(MEDIA_ROOT+"/"+mod_name), join=True)
-                    context['src_image_attack_url'] = "/media/"+img.name.split(".")[0]+".bmp"
-                    context['mod_image_attack_url'] = "/media/"+mod_name.split(".")[0]+".bmp"
-                    
-                elif (Attack.CHI_SQUARE.value == attack_mod):
-                    an.chi_squared_attack(Image.open(MEDIA_ROOT+"/"+img.name))
-                    an.chi_squared_attack(Image.open(MEDIA_ROOT+"/"+mod_name))
-                    context['src_image_attack_url'] = "/media/"+img.name.split(".")[0]+"_chi.bmp"
-                    context['mod_image_attack_url'] = "/media/"+mod_name.split(".")[0]+"_chi.bmp"
-                    
-                elif (Attack.RS.value == attack_mod):
-                    src_average = an.rs_attack(Image.open(MEDIA_ROOT+"/"+img.name))
-                    mod_average = an.rs_attack(Image.open(MEDIA_ROOT+"/"+mod_name))
-                    context['src_average_attack_url'] = (src_average, "Оценка RS на исходном изображении: ")
-                    context['mod_average_attack_url'] = (mod_average, "Оценка RS на измененном изображении: ")
-                    
-                elif (Attack.SPA.value == attack_mod):
-                    src_average = an.spa_attack(Image.open(MEDIA_ROOT+"/"+img.name))
-                    mod_average = an.spa_attack(Image.open(MEDIA_ROOT+"/"+mod_name))
-                    context['src_average_attack_url'] = (src_average, "Оценка SPA на исходном изображении: ")
-                    context['mod_average_attack_url'] = (mod_average, "Оценка SPA на измененном изображении: ")
-                    
-                else:
+                b = case_attack(attack_mod, img.name, mod_name, context)
+                if(b == False):
                     messages.warning(request, 'Выберите метод атаки!')
                     
             else:
@@ -109,6 +86,39 @@ def comparison(request):
             messages.warning(request, str(ex))
             
     return render(request, "analysis/comparison_image.html", context)
+
+def case_attack(attack_mod, img_name, img_mod_name, context):
+    src_img = Image.open(MEDIA_ROOT+"/"+img_name)
+    mod_img = Image.open(MEDIA_ROOT+"/"+img_mod_name)
+    
+    if(Attack.VISUAL.value == attack_mod):
+        an.visual_attack(src_img, join=True)
+        an.visual_attack(mod_img, join=True)
+        context['src_image_attack_url'] = "/media/"+img_name.split(".")[0]+".bmp"
+        context['mod_image_attack_url'] = "/media/"+img_mod_name.split(".")[0]+".bmp"
+        
+    elif (Attack.CHI_SQUARE.value == attack_mod):
+        an.chi_squared_attack(src_img)
+        an.chi_squared_attack(mod_img)
+        context['src_image_attack_url'] = "/media/"+img_name.split(".")[0]+"_chi.bmp"
+        context['mod_image_attack_url'] = "/media/"+img_mod_name.split(".")[0]+"_chi.bmp"
+        
+    elif (Attack.RS.value == attack_mod):
+        src_average = an.rs_attack(src_img)
+        mod_average = an.rs_attack(mod_img)
+        context['src_average_attack_url'] = (src_average, "Оценка RS на исходном изображении: ")
+        context['mod_average_attack_url'] = (mod_average, "Оценка RS на измененном изображении: ")
+        
+    elif (Attack.SPA.value == attack_mod):
+        src_average = an.spa_attack(src_img)
+        mod_average = an.spa_attack(mod_img)
+        context['src_average_attack_url'] = (src_average, "Оценка SPA на исходном изображении: ")
+        context['mod_average_attack_url'] = (mod_average, "Оценка SPA на измененном изображении: ")
+        
+    else:
+        return False
+    
+    return True
 
 def structural_similarity(img1, img2, context):
     img_a = np.asarray(img1)
