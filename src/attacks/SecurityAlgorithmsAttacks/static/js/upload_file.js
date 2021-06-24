@@ -1,6 +1,8 @@
+var loaderFlag = 0
+
 function readURL(input) {
     if (input.files && input.files[0]) {
-
+        window.inputFile = 1
         var reader = new FileReader();
 
         reader.onload = function(e) {
@@ -15,6 +17,7 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
 
     } else {
+        window.inputFile = 0
         removeUpload();
     }
 }

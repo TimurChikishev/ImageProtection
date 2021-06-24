@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% load static %} {% csrf_token %} {% block head %}
+
 <link href="{% static 'css/index.css' %}" rel="stylesheet" /> {% endblock %} {% block content %}
 <form class="my-5" method="post" action="" enctype="multipart/form-data">
     <div class="file-upload bg-light rounded">
@@ -26,7 +27,7 @@
                     </button>
                 </div>
                 <div class="row">
-                    <button type="submit" class="btn button bg-dark text-white form-control">Продолжить</button>
+                    <button type="submit" class="btn button bg-dark text-white form-control" onclick="showLoader()">Продолжить</button>
                 </div>
             </div>
         </div>
