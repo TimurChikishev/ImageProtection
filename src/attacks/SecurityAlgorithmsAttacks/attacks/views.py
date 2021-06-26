@@ -13,6 +13,7 @@ from skimage.metrics import structural_similarity as ssim
 from pathlib import Path
 import os
 import numpy as np
+import glob
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
@@ -23,12 +24,20 @@ attacks = [(Attack.VISUAL, "VISUAL"),
            (Attack.RS, "RS"), 
            (Attack.SPA, "SPA")]
 
+
+def clear_media():
+    files = glob.glob(MEDIA_ROOT+'/*')
+    for f in files:
+        os.remove(f)
+
+
 @csrf_exempt
 def index(request):
     context = {}
     context["attacks"] = attacks
     try:
         if request.method == "POST":
+            # clear_media()
             data = request.POST
             attack_mod = request.POST['attacs']
             img = request.FILES['uploadFromPC']
@@ -62,6 +71,7 @@ def comparison(request):
     context = {}
     if request.method == "POST":
         try:
+            # clear_media()
             fs = FileSystemStorage()      
             img = request.FILES 
             img_list = img.getlist('uploadFromPC[]')
@@ -121,15 +131,18 @@ def case_attack(attack_mod, img_name, img_mod_name, context):
     return True
 
 def structural_similarity(img1, img2, context):
-    img_a = np.asarray(img1)
-    img_b = np.asarray(img2)
+    rgb_img1 = img1.copy().convert('RGB')
+    rgb_img2 = img2.copy().convert('RGB')
+    img_a = np.asarray(rgb_img1)
+    img_b = np.asarray(rgb_img2)
     ssimg = ssim(img_a, img_b, multichannel=True) 
     context['ssim'] = ssimg
 
 def genAnalisisImage(img1, img2, context):
     # Визуальное отличие
-    runVisualComparsion(img1, img2)
-    context['visual_comparsion'] = "/media/"+"visual_comparsion"+os.path.basename(img1.filename)
+    fname = runVisualComparsion(img1, img2)
+    
+    context['visual_comparsion'] = "/media/"+fname
     
     # RGB hist
     runHistRGB(img1.filename, "1")

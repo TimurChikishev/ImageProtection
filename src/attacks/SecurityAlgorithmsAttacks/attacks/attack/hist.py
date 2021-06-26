@@ -7,16 +7,35 @@ import cv2 as cv
 import seaborn as sns
 import inspect
 import os
+import glob
+import uuid
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static\\media')
- 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+
+def clear_media(pattern):
+    files = glob.glob(MEDIA_ROOT+'/'+pattern)
+    for f in files:
+        os.remove(f)
+
 # Сверяет два изображения    
-def runVisualComparsion(image_1, image_2):
-    result=ImageChops.difference(image_1, image_2)
-    new_image = change_brightness(result, 'lighten', 1000)
-    new_image.save(MEDIA_ROOT+"/visual_comparsion"+os.path.basename(image_1.filename))
+def runVisualComparsion(image_1, image_2) -> str:
+    rgb_img1 = image_1.copy().convert('RGB')
+    rgb_img2 = image_2.copy().convert('RGB')
+    result=ImageChops.difference(rgb_img1, rgb_img2)
+    new_image = change_brightness(result, 'lighten', 2000)
+
+    clear_media("VisualComparsion*")
+
+    rndsrt = str(uuid.uuid4())
+    fname, file_extension = os.path.splitext(image_1.filename)
+
+    fname = "VisualComparsion"+rndsrt+file_extension
+    print(fname)
+    new_image.save(MEDIA_ROOT+"/"+fname)
+
+    return fname
 
 def change_brightness(image, action, extent):
     pixels = image.getdata()
