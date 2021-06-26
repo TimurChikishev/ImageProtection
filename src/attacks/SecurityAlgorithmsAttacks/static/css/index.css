@@ -11,6 +11,7 @@
       background-color: #ffffff;
       width: 25%;
       min-width: 300px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 20px;
   }
@@ -29,8 +30,9 @@
   
   .file-upload-compairson {
       background-color: #ffffff;
-      width: 100%;
+      width: 60%;
       min-width: 300px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 20px;
   }
