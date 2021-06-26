@@ -4,7 +4,7 @@
 
 Ссылка на сайт для проекта: http://pd-2020-2.std-881.ist.mospolytech.ru/
 
-Ссылка на отчетный материал: -
+Ссылка на отчетный материал: https://drive.google.com/drive/folders/1lTiu-tpsYIul_kcQJvnLo1uXgh9VKKp4
 
 ## Задачи на проект
 
