@@ -62,12 +62,13 @@ def runHistRGB(file_name, num):
 
     for y in range(height):
         for x in range(width):
-            Red.append(pix[x, y][0])
-            Green.append(pix[x, y][1])
-            Blue.append(pix[x, y][2])
+            p = pix[x, y]
+            Red.append(p[0])
+            Green.append(p[1])
+            Blue.append(p[2])
     
-    for Color in [Red,Green,Blue]:
-        ColorEmpty(Color)
+    # for Color in [Red,Green,Blue]:
+    #     ColorEmpty(Color)
         
     for i,ListColor in enumerate([Red,Green,Blue]):
         if (i == 0):
